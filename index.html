@@ -146,6 +146,27 @@ section { scroll-margin-top: 64px; }
 .track-nav button:hover { background: var(--accent); }
 .track-nav button:active { transform: scale(.94); }
 
+/* Design: the brand work, set like a pinboard of finished pieces */
+.design h2 { font-size: var(--step-head); }
+.design-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+.design-head p { max-width: 46ch; }
+.dgrid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.dgrid figure { margin: 0; display: grid; gap: 10px; }
+.dgrid img { display: block; width: 100%; height: auto; transition: transform .4s var(--ease); }
+.dgrid figure:hover img { transform: translateY(-4px); }
+.dgrid figcaption { font-size: var(--step-small); color: var(--muted); }
+.dgrid figcaption b { display: block; color: var(--ink); font-size: var(--step-body); }
+.d-poster { grid-column: span 5; }
+.d-live { grid-column: span 3; }
+.d-side { grid-column: span 4; display: grid; gap: 24px; }
+.icons { background: var(--paper); padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.icons img { width: 100%; max-width: 88px; margin: 0 auto; }
+.d-mocks { grid-column: span 12; background: var(--field); padding: 40px 24px 0; max-height: 520px; align-items: flex-start; display: flex; justify-content: center; gap: 32px; overflow: hidden; }
+.d-mocks img { width: min(300px, 40%); height: auto; display: block; }
+.d-mocks + figcaption { grid-column: span 12; }
+@media (max-width: 900px) { .d-poster { grid-column: span 7; } .d-live { grid-column: span 5; } .d-side { grid-column: span 12; grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .d-poster, .d-live { grid-column: span 12; } .d-side { grid-template-columns: 1fr; } .d-mocks { gap: 16px; padding: 24px 16px 0; } }
+
 /* About: words left, photograph right */
 .about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
 .about h2 { font-size: var(--step-head); }
@@ -155,7 +176,7 @@ section { scroll-margin-top: 64px; }
 .facts { display: grid; grid-template-columns: auto 1fr; gap: 8px 20px; margin: 8px 0 0; }
 .facts dt { font-weight: 700; } .facts dd { margin: 0; }
 .about figure { margin: 0; }
-.about figure img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+.about figure img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; max-width: 520px; }
 .about figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px; }
 @media (max-width: 800px) { .about { grid-template-columns: 1fr; } }
 
@@ -204,6 +225,10 @@ section { scroll-margin-top: 64px; }
 .ghost.done { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 @media (max-width: 700px) { .mail .addr { font-size: 11.5vw; } .contact .wrap { min-height: 0; padding-block: 72px 40px; } }
 
+.reach .links { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.reach .links a:not(.btn) { color: var(--field-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 5px; transition: color .2s; }
+.reach .links a:not(.btn):hover { color: var(--accent); }
+
 /* Footer: name first */
 footer { background: var(--field); color: var(--field-ink); overflow: hidden; }
 footer .wrap { padding-block: 120px 32px; display: grid; gap: 32px; }
@@ -231,6 +256,7 @@ footer .name { font-family: var(--display); font-weight: 800; text-transform: up
     <a class="mark" href="#top">Josh A-O</a>
     <nav aria-label="Sections">
       <a href="#work">Work</a>
+      <a href="#design">Design</a>
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
@@ -308,6 +334,29 @@ footer .name { font-family: var(--display); font-weight: 800; text-transform: up
     </div>
   </section>
 
+  <section class="wrap sec design" id="design" aria-labelledby="design-h">
+    <div class="design-head r">
+      <h2 id="design-h">I design too</h2>
+      <p>I designed the UniHive brand myself: the hexagon logo, the colours, the app screens, the icons, the posters and the posts for social media.</p>
+    </div>
+    <div class="dgrid">
+      <figure class="d-poster r"><img src="poster-campus.webp" alt="UniHive poster: Everything campus on one platform, with students, the app on a phone and a QR code" width="900" height="1350" loading="lazy">
+        <figcaption><b>Campus poster</b>Printed for the UNIPORT launch, with a QR code to join.</figcaption></figure>
+      <figure class="d-live r"><img src="post-live.webp" alt="Launch post: We are Live, 09-11-2026, the UniHive logo on a stage between curtains" width="720" height="1280" loading="lazy">
+        <figcaption><b>Launch day post</b>WhatsApp and Instagram story for 9 November 2026.</figcaption></figure>
+      <div class="d-side">
+        <figure class="r"><img src="logo-board.webp" alt="The UniHive logo: a hexagon hive mark with UNI in navy and HIVE in indigo" width="1000" height="1000" loading="lazy">
+          <figcaption><b>The logo</b>A hive of hexagons that also reads as a U and an H.</figcaption></figure>
+        <figure class="r"><div class="icons">
+          <img src="study-hub.svg" alt="Study Hub icon" width="88" height="88" loading="lazy"><img src="lost-found.svg" alt="Lost and Found icon" width="88" height="88" loading="lazy"><img src="gigs-errands.svg" alt="Gigs and errands icon" width="88" height="88" loading="lazy">
+          <img src="marketplace.svg" alt="Marketplace icon" width="88" height="88" loading="lazy"><img src="campus-guide.svg" alt="Campus Guide icon" width="88" height="88" loading="lazy"><img src="trusted.svg" alt="Trusted icon" width="88" height="88" loading="lazy"></div>
+          <figcaption><b>Feature icons</b>One set for the app, the posters and the posts.</figcaption></figure>
+      </div>
+      <div class="d-mocks r"><img src="mock-light.webp" alt="UniHive home screen on an iPhone, light mode" width="700" height="1514" loading="lazy"><img src="mock-dark.webp" alt="UniHive home screen on an iPhone, dark mode" width="700" height="1514" loading="lazy"></div>
+      <figcaption class="r" style="font-size:var(--step-small);color:var(--muted)"><b style="display:block;color:var(--ink);font-size:var(--step-body)">App mockups</b>The home screen in light and dark, made for the posters and the store pages.</figcaption>
+    </div>
+  </section>
+
   <section class="wrap sec" id="about" aria-labelledby="about-h">
     <div class="about">
       <div class="txt">
@@ -316,13 +365,14 @@ footer .name { font-family: var(--display); font-weight: 800; text-transform: up
         <p class="r">I plan before I build, ship one small feature at a time, and test everything on a real phone in light and dark mode. I use AI coding tools every day, and I check and own every line that goes live.</p>
         <dl class="facts r">
           <dt>Studying</dt><dd>B.Eng. Mechanical Engineering, University of Port Harcourt, 200 level</dd>
+          <dt>WAEC</dt><dd>Olobo Premier College, Choba, 2025</dd>
           <dt>Looking for</dt><dd>A tech internship or junior role</dd>
           <dt>Also</dt><dd>Websites for businesses, under the name Vondr Technologies</dd>
         </dl>
       </div>
       <figure class="r">
-        <img src="study-668.webp" alt="Students on the UNIPORT campus looking at a laptop" width="668" height="768" loading="lazy">
-        <figcaption>Students on the UNIPORT campus, the people UniHive is for.</figcaption>
+        <img src="josh.webp" alt="Josh Ajovo-Otolo" width="480" height="480" loading="lazy">
+        <figcaption>Josh Ajovo-Otolo, founder of UniHive.</figcaption>
       </figure>
     </div>
   </section>
@@ -372,7 +422,11 @@ footer .name { font-family: var(--display); font-weight: 800; text-transform: up
       </div>
       <div class="reach r">
         <p class="lines">Phone <b>+234 911 570 7371</b><br>WhatsApp <b>+234 906 074 9359</b><br>Port Harcourt, Nigeria</p>
-        <a class="btn" href="https://unihive.ng" target="_blank" rel="noopener">Open UniHive <span aria-hidden="true">↗</span></a>
+        <div class="links">
+          <a href="https://www.linkedin.com/in/josh-ajovo-otolo-a56b0a2b3" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://github.com/josh-ajovo" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn" href="https://unihive.ng" target="_blank" rel="noopener">Open UniHive <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
     </div>
   </section>
