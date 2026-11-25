@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Josh Ajovo-Otolo: Mechanical Engineering student at UNIPORT who designed, built and launched UniHive, a campus app for Nigerian students.">
+<meta property="og:title" content="Josh Ajovo-Otolo">
+<meta property="og:description" content="I designed, built and launched UniHive, a campus app for Nigerian students, on my own in 7 weeks.">
+<meta property="og:image" content="https://josh-ajovo.github.io/home-light.png">
+<title>Josh Ajovo-Otolo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@800&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: the name is pinned like a poster title while UniHive's own screens swap beneath it; then full-bleed campus
+   photographs carry the numbers, a sliding row of the work, an active skills list, and the email set as display type.
+   One deliberate look (UniHive's lavender ground, navy ink, honey accent), the same in every theme. */
+:root {
+  --bg: #E0DFFF;          /* ground: UniHive tint */
+  --surface: #D3D1FB;     /* one tone step down */
+  --ink: #0F0F1E;
+  --muted: #3D3B63;
+  --accent: #F59E0B;      /* honey: the action only */
+  --accent-ink: #0F0F1E;
+  --field: #0F0F1E;  --field-ink: #E0DFFF;  --field-muted: #A9A7CC;
+  --paper: #FFFFFF;
+  --display: "Big Shoulders", "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
+  --text: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2.75rem, 1.2rem + 5vw, 5.5rem);
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  --ease: cubic-bezier(.2,.7,.2,1);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--text); font-size: var(--step-body); line-height: 1.5; }
+h1, h2, h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.005em; line-height: 0.88; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.wrap { max-width: 1440px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+@media (min-width: 900px) { :root { --gutter-l: max(32px, env(safe-area-inset-left, 0px)); --gutter-r: max(32px, env(safe-area-inset-right, 0px)); } }
+
+/* Buttons: one shape, square corners */
+.btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; background: var(--accent); color: var(--accent-ink);
+  font: 700 var(--step-body) var(--text); text-decoration: none; border: 0; cursor: pointer; transition: transform .2s var(--ease), background-color .2s; }
+.btn:hover { background: #FBB740; transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(.98); }
+.btn span { transition: transform .2s var(--ease); }
+.btn:hover span { transform: translateX(4px); }
+
+/* Bar */
+.bar { position: absolute; inset: 0 0 auto; z-index: 20; padding-top: env(safe-area-inset-top, 0px); pointer-events: none; }
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
+.bar a { pointer-events: auto; text-decoration: none; font-weight: 700; font-size: var(--step-small); color: var(--stage-ink, var(--ink)); transition: color .4s; }
+.bar nav { display: flex; gap: 22px; }
+.bar nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.mark { font-family: var(--display) !important; font-size: var(--step-lead) !important; letter-spacing: .01em; }
+@media (max-width: 600px) { .bar nav a:not(:last-child) { display: none; } }
+
+/* Hero: pinned title, screens swap beneath */
+.hero { position: relative; height: 280svh; }
+.stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: var(--stage-bg, var(--bg)); transition: background-color .5s var(--ease); }
+.stage .wrap { position: relative; height: 100%; }
+.hero h1 { position: relative; z-index: 3; padding-top: 72px; text-align: center; color: var(--stage-ink, var(--ink)); transition: color .5s var(--ease);
+  font-size: min(11.6vw, 10.4rem); white-space: nowrap; }
+.phone { position: absolute; z-index: 2; left: 50%; bottom: 0; transform: translateX(-50%); height: calc(100svh - 72px - min(11.6vw, 10.4rem) - 28px); aspect-ratio: 1 / 2; max-width: 100%;
+  background: #0F0F1E; padding: 10px 10px 0; border-radius: 34px 34px 0 0; }
+.screens { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 26px 26px 0 0; background: #F9F9FF; }
+.screens img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; transform: scale(1.04);
+  transition: opacity .5s var(--ease), transform .8s var(--ease); }
+.screens img.on { opacity: 1; transform: scale(1); }
+.side { position: absolute; z-index: 3; bottom: 32px; display: grid; gap: 14px; color: var(--stage-ink, var(--ink)); transition: color .5s var(--ease); }
+.side.left { left: var(--gutter-l); max-width: 30ch; }
+.side.right { right: var(--gutter-r); justify-items: end; text-align: right; max-width: 30ch; }
+.side .lead { font-weight: 700; font-size: var(--step-lead); line-height: 1.25; }
+.side .cap { font-size: var(--step-body); }
+.side .cap b { display: block; font-size: var(--step-lead); }
+.switch { white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; background: none; border: 0; padding: 6px 0; cursor: pointer; font: 600 var(--step-body) var(--text); color: inherit; }
+.switch i { position: relative; width: 46px; height: 26px; background: currentColor; border-radius: 13px; opacity: .9; }
+.switch i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--stage-bg, var(--bg)); transition: transform .25s var(--ease), background-color .5s; }
+.switch[aria-pressed="true"] i::after { transform: translateX(20px); }
+.dots { display: flex; gap: 6px; }
+.dots span { width: 22px; height: 4px; background: currentColor; opacity: .3; transition: opacity .3s; }
+.dots span.on { opacity: 1; }
+@media (max-width: 1023px) {
+  .hero { height: 280svh; }
+  .stage .wrap { display: flex; flex-direction: column; }
+  .hero h1 { font-size: min(16vw, 8rem); padding-top: 60px; white-space: normal; line-height: .84; text-align: left; }
+  .side.left { position: static; margin-top: 12px; max-width: 40ch; }
+  .side.left { gap: 12px; }
+  .side.left .lead { font-size: 1.125rem; font-weight: 600; line-height: 1.35; }
+  .side.left .btn { justify-self: start; }
+  .phone { position: relative; left: auto; bottom: auto; transform: none; margin: 16px auto 0; flex: 1 1 auto; min-height: 0; height: auto; width: auto; aspect-ratio: 1 / 2; }
+  .side.right { position: static; display: flex; justify-content: space-between; align-items: center; gap: 12px; text-align: left; max-width: none; padding-block: 12px 16px; }
+  .side.right .cap { font-size: var(--step-small); }
+  .side.right .cap b { font-size: 1.0625rem; }
+  .side.right .dots { display: none; }
+}
+/* Numbers: a figure on the photograph's edge */
+.figure { position: relative; height: 88svh; min-height: 520px; overflow: hidden; color: var(--paper); }
+.figure img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; animation: drift 24s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: scale(1.02); } to { transform: scale(1.1) translate(-1%, -1%); } }
+.figure::after { content: ""; position: absolute; inset: auto 0 0; height: 45%; background: /* taste-skill-ignore: neutral scrim under text on a photo */ linear-gradient(to top, rgba(10,10,20,.82), rgba(10,10,20,0)); }
+.figure .wrap { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding-block: 28px 20px; }
+.figure h2 { font-size: var(--step-head); }
+.figure .base { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.figure .big { font-family: var(--display); font-weight: 800; font-size: clamp(7.5rem, 22vw, 20rem); line-height: .8; text-transform: uppercase; }
+.figure .base p { max-width: 28ch; text-align: right; font-size: var(--step-lead); line-height: 1.3; padding-bottom: 8px; }
+@media (max-width: 700px) { .figure .base { flex-direction: column-reverse; align-items: flex-start; } .figure .base p { text-align: left; font-size: 1.0625rem; } .figure .big { font-size: 34vw; } }
+.nums { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; padding-block: 56px 0; }
+.nums div { display: grid; gap: 4px; }
+.nums b { font-family: var(--display); font-weight: 800; font-size: var(--step-head); line-height: .9; font-variant-numeric: tabular-nums; }
+.nums span { color: var(--muted); max-width: 22ch; }
+@media (max-width: 800px) { .nums { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; } }
+
+section { scroll-margin-top: 64px; }
+.sec { padding-block: 160px 0; }
+@media (max-width: 700px) { .sec { padding-block: 104px 0; } }
+
+/* Work: cards cross a held photograph */
+.work { position: relative; margin-top: 160px; color: var(--paper); overflow: hidden; }
+@media (max-width: 700px) { .work { margin-top: 104px; } }
+.work > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.45) saturate(.8); }
+.work .wrap { position: relative; padding-block: 72px 64px; display: grid; gap: 32px; }
+.work-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.work-head h2 { font-size: var(--step-head); }
+.work-head p { max-width: 44ch; font-size: var(--step-body); }
+.work-head a { color: var(--accent); font-weight: 700; }
+.track { display: flex; gap: 32px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.4) transparent; }
+.card { flex: 0 0 auto; width: min(560px, 82vw); scroll-snap-align: start; display: grid; grid-template-rows: auto auto; color: var(--ink); transition: transform .3s var(--ease); }
+.card:hover { transform: translateY(-6px); }
+.card .pic { aspect-ratio: 16 / 11; overflow: hidden; background: #F9F9FF; }
+.card .pic img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .6s var(--ease); }
+.card:hover .pic img { transform: scale(1.04); }
+.card .panel { padding: 22px 24px 24px; display: grid; gap: 6px; min-height: 150px; }
+.card h3 { font-size: 2.25rem; }
+.card p { font-size: var(--step-body); color: var(--ink); }
+.t1 { background: #E0DFFF; } .t2 { background: #FDE6B4; } .t3 { background: #CFE8DA; } .t4 { background: #F6D3D9; } .t5 { background: #D7E4F7; } .t6 { background: #DCDDE8; }
+.track-nav { display: flex; gap: 10px; justify-content: flex-end; }
+.track-nav button { width: 48px; height: 48px; border: 0; background: var(--paper); color: var(--ink); font-size: 1.3rem; cursor: pointer; transition: background-color .2s, transform .2s var(--ease); }
+.track-nav button:hover { background: var(--accent); }
+.track-nav button:active { transform: scale(.94); }
+
+/* About: words left, photograph right */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.about h2 { font-size: var(--step-head); }
+.about .txt { display: grid; gap: 20px; max-width: 56ch; }
+.about .txt p { font-size: var(--step-body); }
+.about .txt p.first { font-size: var(--step-lead); line-height: 1.35; font-weight: 600; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 8px 20px; margin: 8px 0 0; }
+.facts dt { font-weight: 700; } .facts dd { margin: 0; }
+.about figure { margin: 0; }
+.about figure img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+.about figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px; }
+@media (max-width: 800px) { .about { grid-template-columns: 1fr; } }
+
+/* Skills: sticky picture, active list */
+.skills { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: start; }
+.skills .pin { position: sticky; top: 12vh; }
+.skills .pin div { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--surface); }
+.skills .pin img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; transition: opacity .35s var(--ease); }
+.skills .pin img.on { opacity: 1; }
+.skills h2 { font-size: var(--step-head); margin-bottom: 40px; }
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows li + li { margin-top: 4px; }
+.rows button { width: 100%; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 18px; border: 0; cursor: pointer;
+  background: transparent; color: var(--muted); text-align: left; font: inherit; transition: background-color .25s, color .25s; }
+.rows button b { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 2.25rem; line-height: 1; }
+.rows button span { font-size: var(--step-small); font-weight: 600; white-space: nowrap; }
+.rows button:hover { color: var(--ink); }
+.rows li.on button { background: var(--surface); color: var(--ink); }
+.rows .more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease); }
+.rows .more > div { overflow: hidden; }
+.rows .more p { padding: 0 18px 20px; max-width: 46ch; color: var(--ink); background: var(--surface); }
+.rows li.on .more { grid-template-rows: 1fr; }
+@media (max-width: 800px) {
+  .skills { grid-template-columns: 1fr; gap: 24px; }
+  .skills .pin { top: 56px; z-index: 2; }
+  .skills .pin div { aspect-ratio: 4 / 3; max-height: 34svh; width: 100%; }
+}
+
+/* Contact: the email as display type */
+.contact { background: var(--field); color: var(--field-ink); margin-top: 160px; }
+.contact .wrap { min-height: 92svh; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding-block: 64px 40px; }
+.contact h2 { font-size: var(--step-head); }
+.contact .ask { display: grid; gap: 16px; max-width: 40ch; }
+.contact .ask p { font-size: var(--step-lead); line-height: 1.3; color: var(--field-ink); }
+.mail { display: grid; gap: 18px; }
+.mail .addr { font-family: var(--display); font-weight: 800; font-size: clamp(2.6rem, 8.6vw, 9.5rem); line-height: .9; text-transform: uppercase; overflow-wrap: anywhere;
+  color: var(--field-ink); user-select: all; transition: color .25s; }
+.mail .addr:hover { color: var(--accent); }
+.mail .addr wbr { display: inline; }
+.reach { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.reach .lines { font-size: var(--step-body); line-height: 1.7; color: var(--field-muted); } .reach .lines b { color: var(--field-ink); font-weight: 600; font-variant-numeric: tabular-nums; user-select: all; margin-left: 6px; }
+.reach dt { color: var(--field-muted); } .reach dd { margin: 0; font-weight: 600; user-select: all; font-variant-numeric: tabular-nums; }
+.copies { display: flex; gap: 10px; flex-wrap: wrap; }
+.ghost { min-height: 48px; padding: 0 18px; background: transparent; color: var(--field-ink); border: 2px solid var(--field-ink); font: 600 var(--step-small) var(--text); cursor: pointer; transition: background-color .2s, color .2s; }
+.ghost:hover { background: var(--field-ink); color: var(--field); }
+.ghost.done { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+@media (max-width: 700px) { .mail .addr { font-size: 11.5vw; } .contact .wrap { min-height: 0; padding-block: 72px 40px; } }
+
+/* Footer: name first */
+footer { background: var(--field); color: var(--field-ink); overflow: hidden; }
+footer .wrap { padding-block: 120px 32px; display: grid; gap: 32px; }
+footer .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: var(--step-small); color: var(--field-muted); }
+footer .row a { color: var(--field-ink); font-weight: 600; }
+footer .name { font-family: var(--display); font-weight: 800; text-transform: uppercase; line-height: .78; font-size: min(24.5vw, 22rem); white-space: nowrap; color: var(--accent); }
+
+
+/* Entrances: only ever start from visible content; JS marks parts below the fold, then reveals them */
+.pre { opacity: 0; transform: translateY(24px); }
+.in { opacity: 1; transform: none; transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0ms); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+  .pre { opacity: 1; transform: none; }
+}
+</style>
+<style>html,body{margin:0}</style>
+</head>
+<body>
+
+
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="#top">Josh A-O</a>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-label="Introduction">
+    <div class="stage" id="stage">
+      <div class="wrap">
+        <h1>Josh Ajovo-Otolo</h1>
+        <div class="side left">
+          <p class="lead">I designed, built and launched UniHive, a campus app for Nigerian students, on my own in 7 weeks.</p>
+          <a class="btn" href="#contact">Hire me <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="phone" aria-hidden="false">
+          <div class="screens" id="screens">
+            <img class="on" src="home-light.png" data-light="home-light.png" data-dark="home-dark.png" alt="UniHive home screen" width="870" height="1790">
+            <img src="course_light.webp" data-light="course_light.webp" data-dark="course_dark.webp" alt="A course page in the Study Hub" width="540" height="1080">
+            <img src="notes_light.webp" data-light="notes_light.webp" data-dark="notes_dark.webp" alt="Topic notes in the Study Hub" width="540" height="1080">
+            <img src="gpa_light.webp" data-light="gpa_light.webp" data-dark="gpa_dark.webp" alt="The GPA calculator" width="540" height="1080">
+          </div>
+        </div>
+        <div class="side right">
+          <p class="cap" id="cap" aria-live="polite"><b>Home</b>Market, shops, gigs and Lost &amp; Found in one place.</p>
+          <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
+          <button class="switch" id="theme" type="button" aria-pressed="false"><i aria-hidden="true"></i>Dark mode</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="speed">
+    <div class="figure">
+      <img src="final-960.webp" alt="Students on the UNIPORT campus using their phones" width="960" height="540" loading="lazy">
+      <div class="wrap">
+        <h2 id="speed">Idea to launch</h2>
+        <div class="base">
+          <span class="big" aria-label="7 weeks">7 wks</span>
+          <p>First commit on 10 October 2026. Live for every student on 9 November. Still shipping every day.</p>
+        </div>
+      </div>
+    </div>
+    <div class="wrap nums">
+      <div class="r"><b>500+</b><span>git commits, all written and reviewed by me</span></div>
+      <div class="r"><b>324</b><span>Nigerian universities in the Study Hub</span></div>
+      <div class="r"><b>3,400+</b><span>course topics with written notes</span></div>
+      <div class="r"><b>219</b><span>UNIPORT places mapped with directions</span></div>
+    </div>
+  </section>
+
+  <section class="work" id="work" aria-labelledby="work-h">
+    <img src="campus-960.webp" alt="" width="960" height="600" loading="lazy">
+    <div class="wrap">
+      <div class="work-head r">
+        <h2 id="work-h">What I built</h2>
+        <p>UniHive is one mobile site for campus life, made for cheap Android phones on slow data. <a href="https://unihive.ng" target="_blank" rel="noopener">See it live at unihive.ng ↗</a></p>
+      </div>
+      <div class="track" id="track" tabindex="0" aria-label="UniHive features">
+        <article class="card t1"><div class="pic"><img src="course_light.webp" alt="A course page listing its topics" width="540" height="1080" loading="lazy"></div>
+          <div class="panel"><h3>Study Hub</h3><p>2,500+ course codes across 324 universities, linked to the national curriculum, with past questions and practice.</p></div></article>
+        <article class="card t2"><div class="pic"><img src="notes_light.webp" alt="Written notes for a topic" width="540" height="1080" loading="lazy"></div>
+          <div class="panel"><h3>Topic notes</h3><p>3,400+ topics of plain-English notes and 6,300+ checked links to read, watch and practise.</p></div></article>
+        <article class="card t3"><div class="pic"><img src="gpa_light.webp" alt="The GPA calculator showing a CGPA of 4.39" width="540" height="1080" loading="lazy"></div>
+          <div class="panel"><h3>GPA calculator</h3><p>The NUC 5-point scale, worked out on the phone. It tells you the grades you need for the class you want.</p></div></article>
+        <article class="card t4"><div class="pic"><img src="home-light.png" alt="The home screen with Lost and Found search" width="870" height="1790" loading="lazy"></div>
+          <div class="panel"><h3>Campus life</h3><p>Lost &amp; Found, gigs, a marketplace, events, verified shops and a guide to 219 places on campus.</p></div></article>
+        <article class="card t5"><div class="pic"><img src="home-dark.png" alt="The home screen in dark mode" width="870" height="1790" loading="lazy"></div>
+          <div class="panel"><h3>Built for weak data</h3><p>Works offline, posts wait and send later, light WebP pictures, skeleton loaders, light and dark themes.</p></div></article>
+        <article class="card t6"><div class="pic"><img src="trust-640.webp" alt="Students on the UNIPORT campus" width="640" height="736" loading="lazy"></div>
+          <div class="panel"><h3>Trust and safety</h3><p>Free verified-student badges, verified businesses, scam warnings, reports and an admin with a full audit log.</p></div></article>
+      </div>
+      <div class="track-nav"><button type="button" id="prev" aria-label="Previous feature">←</button><button type="button" id="next" aria-label="Next feature">→</button></div>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="about" aria-labelledby="about-h">
+    <div class="about">
+      <div class="txt">
+        <h2 id="about-h" class="r">About me</h2>
+        <p class="first r">I'm 18, from Port Harcourt, and I study Mechanical Engineering at UNIPORT. I taught myself to build for the web by building something people on my campus needed.</p>
+        <p class="r">I plan before I build, ship one small feature at a time, and test everything on a real phone in light and dark mode. I use AI coding tools every day, and I check and own every line that goes live.</p>
+        <dl class="facts r">
+          <dt>Studying</dt><dd>B.Eng. Mechanical Engineering, University of Port Harcourt, 200 level</dd>
+          <dt>Looking for</dt><dd>A tech internship or junior role</dd>
+          <dt>Also</dt><dd>Websites for businesses, under the name Vondr Technologies</dd>
+        </dl>
+      </div>
+      <figure class="r">
+        <img src="study-668.webp" alt="Students on the UNIPORT campus looking at a laptop" width="668" height="768" loading="lazy">
+        <figcaption>Students on the UNIPORT campus, the people UniHive is for.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="skills" aria-labelledby="skills-h">
+    <div class="skills">
+      <div class="pin" aria-hidden="true"><div id="skillpic">
+        <img class="on" src="course_light.webp" alt="" loading="lazy">
+        <img src="notes_dark.webp" alt="" loading="lazy">
+        <img src="gpa_dark.webp" alt="" loading="lazy">
+        <img src="hero-768.webp" alt="" loading="lazy">
+        <img src="home-dark.png" alt="" loading="lazy">
+        <img src="course_dark.webp" alt="" loading="lazy">
+      </div></div>
+      <div>
+        <h2 id="skills-h" class="r">What I work with</h2>
+        <ul class="rows" id="rows">
+          <li class="on"><button type="button" aria-expanded="true"><b>PHP and MySQL</b><span>PHP 8 · MySQL 8</span></button>
+            <div class="more"><div><p>Server-rendered pages, 160+ numbered database migrations and prepared statements for every query.</p></div></div></li>
+          <li><button type="button" aria-expanded="false"><b>JavaScript</b><span>Vanilla · PWA</span></button>
+            <div class="more"><div><p>Interactive pages without a framework, an offline mode with a service worker and a design tool that exports PNG posts.</p></div></div></li>
+          <li><button type="button" aria-expanded="false"><b>Security</b><span>CSRF · roles · logs</span></button>
+            <div class="more"><div><p>CSRF tokens on every form, role checks on the server for every admin action, and an audit log with before and after.</p></div></div></li>
+          <li><button type="button" aria-expanded="false"><b>Design</b><span>Brand · UI</span></button>
+            <div class="more"><div><p>The UniHive logo, colours and one shared design system, mobile-first at 360 px, in light and dark themes.</p></div></div></li>
+          <li><button type="button" aria-expanded="false"><b>Shipping</b><span>Git · cPanel · cron</span></button>
+            <div class="more"><div><p>500+ commits, zip-based deploys with a checklist for every release, Brevo email and cron jobs on live hosting.</p></div></div></li>
+          <li><button type="button" aria-expanded="false"><b>AI tools</b><span>Claude Code</span></button>
+            <div class="more"><div><p>I build with AI coding tools daily: plan, prompt, review and test, so one person ships what usually takes a team.</p></div></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <div class="ask r">
+        <h2 id="contact-h">Let's talk</h2>
+        <p>Hiring an intern, or need a website for your business? Write to me.</p>
+      </div>
+      <div class="mail r">
+        <span class="addr" id="addr">joshuaotolo91@<wbr>gmail.com</span>
+        <div class="copies">
+          <button class="ghost" type="button" data-copy="joshuaotolo91@gmail.com">Copy email</button>
+          <button class="ghost" type="button" data-copy="+2349060749359">Copy WhatsApp number</button>
+        </div>
+      </div>
+      <div class="reach r">
+        <p class="lines">Phone <b>+234 911 570 7371</b><br>WhatsApp <b>+234 906 074 9359</b><br>Port Harcourt, Nigeria</p>
+        <a class="btn" href="https://unihive.ng" target="_blank" rel="noopener">Open UniHive <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="name" aria-hidden="true">Josh A-O</p>
+    <div class="row"><span>Josh Ajovo-Otolo · Port Harcourt · UniHive is run under the business name Vondr Technologies.</span><a href="#top">Back to top ↑</a></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Hero: the screen under the pinned name follows the scroll */
+  var hero = document.querySelector('.hero'), stage = document.getElementById('stage');
+  var shots = [].slice.call(document.querySelectorAll('#screens img'));
+  var dots = [].slice.call(document.querySelectorAll('.dots span'));
+  var cap = document.getElementById('cap');
+  var steps = [
+    ['Home', 'Market, shops, gigs and Lost &amp; Found in one place.', '#E0DFFF', '#FDE6B4'],
+    ['Course page', 'Every course, its topics, past questions and practice.', '#FDE6B4', '#E0DFFF'],
+    ['Topic notes', 'Plain-English notes written for each topic.', '#CFE8DA', '#D7E4F7'],
+    ['GPA calculator', 'The grades you need for the class you want.', '#F6D3D9', '#FDE6B4']
+  ];
+  var dark = false, cur = 0;
+  function paint(i) {
+    cur = i;
+    shots.forEach(function (s, n) { s.classList.toggle('on', n === i); });
+    dots.forEach(function (d, n) { d.classList.toggle('on', n === i); });
+    cap.innerHTML = '<b>' + steps[i][0] + '</b>' + steps[i][1];
+    stage.style.setProperty('--stage-bg', dark ? '#0F0F1E' : steps[i][2]);
+    stage.style.setProperty('--stage-ink', dark ? '#E0DFFF' : '#0F0F1E');
+    document.querySelector('.bar').style.setProperty('--stage-ink', (dark && window.scrollY < hero.offsetHeight - 80) ? '#E0DFFF' : '#0F0F1E');
+  }
+  function onScroll() {
+    var r = hero.getBoundingClientRect();
+    var span = hero.offsetHeight - window.innerHeight;
+    var p = Math.min(Math.max(-r.top / span, 0), 0.999);
+    var i = Math.floor(p * shots.length);
+    if (i !== cur) paint(i); else document.querySelector('.bar').style.setProperty('--stage-ink', (dark && r.bottom > 80) ? '#E0DFFF' : '#0F0F1E');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* The live thing: see UniHive in its dark theme */
+  var sw = document.getElementById('theme');
+  sw.addEventListener('click', function () {
+    dark = !dark;
+    sw.setAttribute('aria-pressed', String(dark));
+    shots.forEach(function (s) { s.src = dark ? s.dataset.dark : s.dataset.light; });
+    paint(cur);
+  });
+
+  /* Work track arrows */
+  var track = document.getElementById('track');
+  function by(dir) { var c = track.querySelector('.card'); track.scrollBy({ left: dir * (c.offsetWidth + 32), behavior: reduce ? 'auto' : 'smooth' }); }
+  document.getElementById('prev').addEventListener('click', function () { by(-1); });
+  document.getElementById('next').addEventListener('click', function () { by(1); });
+
+  /* Skills: one active row, the picture follows */
+  var rows = [].slice.call(document.querySelectorAll('#rows li'));
+  var pics = [].slice.call(document.querySelectorAll('#skillpic img'));
+  function act(i) {
+    rows.forEach(function (r, n) { r.classList.toggle('on', n === i); r.querySelector('button').setAttribute('aria-expanded', String(n === i)); });
+    pics.forEach(function (p, n) { p.classList.toggle('on', n === i); });
+  }
+  rows.forEach(function (r, i) {
+    var b = r.querySelector('button');
+    b.addEventListener('click', function () { act(i); });
+    b.addEventListener('mouseenter', function () { act(i); });
+    b.addEventListener('focus', function () { act(i); });
+  });
+
+  /* Copy buttons */
+  [].forEach.call(document.querySelectorAll('[data-copy]'), function (b) {
+    var label = b.textContent;
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-copy');
+      function ok() { b.textContent = 'Copied'; b.classList.add('done'); setTimeout(function () { b.textContent = label; b.classList.remove('done'); }, 1800); }
+      function fallback() { var r = document.createRange(); r.selectNodeContents(document.getElementById('addr')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected, press copy'; }
+      try { navigator.clipboard.writeText(t).then(ok, fallback); } catch (e) { fallback(); }
+    });
+  });
+
+  /* Entrances for the parts of each section, staggered; content already on screen is never hidden */
+  if (!reduce && 'IntersectionObserver' in window) {
+    var parts = [].slice.call(document.querySelectorAll('.r, .card, .nums > div'));
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); e.target.classList.remove('pre'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    parts.forEach(function (el, n) {
+      if (el.getBoundingClientRect().top > window.innerHeight) {
+        var sib = el.parentNode ? [].indexOf.call(el.parentNode.children, el) : 0;
+        el.style.setProperty('--d', (Math.min(sib, 5) * 75) + 'ms');
+        el.classList.add('pre');
+        io.observe(el);
+      }
+    });
+  }
+  paint(0);
+})();
+</script>
+
+</body>
+</html>
